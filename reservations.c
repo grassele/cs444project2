@@ -3,7 +3,6 @@
 #include <unistd.h>
 #include <pthread.h>
 
-// These will be initialized in main() from the command line.
 int seat_count;
 int broker_count;
 int *seat_taken;  // Array of seats
@@ -11,42 +10,30 @@ int transaction_count;
 
 int seat_taken_count = 0;
 
-int reserve_seat(int n)
-{
-    // Attempt to reserve seat number n
-    //
-    // If the seat is already taken, return -1
-    // Otherwise mark the seat as taken and return 0
-    //
-    // This function should also increment seat_taken_count if the seat
-    // wasn't already taken.
-    
-    // TODO
-
-    return 0;  // Change as necessary--included so it will build
+int reserve_seat(int n) {
+    if (seat_taken[n]) {
+        return -1;
+    }
+    else {
+        seat_taken[n] = 1;
+        seat_taken_count++;
+        return 0;
+    }
 }
 
-int free_seat(int n)
-{
-    // Attempt to free (unreserve) seat number n
-    //
-    // If the seat is already free, return -1
-    // Otherwise mark the seat as free and return 0
-    //
-    // This function should also decrement seat_taken_count if the seat
-    // wasn't already free.
-
-    // TODO
-
-    return 0;  // Change as necessary--included so it will build
+int free_seat(int n) {
+    if (!seat_taken[n]) {
+        return -1;
+    }
+    else {
+        seat_taken[n] = 0;
+        seat_taken_count--;
+        return 0;
+    }
 }
 
 int is_free(int n) {
-    // Returns true if the given seat is available.
-
-    // TODO
-
-    return 0;  // Change as necessary--included so it will build
+    return !seat_taken[n];
 }
 
 int verify_seat_count(void) {
